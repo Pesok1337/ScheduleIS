@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 
 import  Button  from "antd/es/button/button"
 import { Schedules } from "../components/Schedules";
@@ -99,3 +99,24 @@ export default function SchedulePage() {
         </div>
     )
 }
+*/
+"use client";
+// src/pages/Schedules.tsx
+
+import React from 'react';
+import ScheduleContainer from '../components/ScheduleContainer';
+
+const Schedules: React.FC = () => {
+  return (
+    <div>
+      <h1>Расписание на неделю</h1>
+      <ScheduleContainer />
+    </div>
+  );
+};
+
+export default Schedules;
+
+
+
+

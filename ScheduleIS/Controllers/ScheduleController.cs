@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ScheduleIS.API.Contracts;
-using ScheduleIS.Application;
+using ScheduleIS.API.Contracts.Schedule;
+using ScheduleIS.Core;
 using ScheduleIS.Core.Models;
 
 namespace ScheduleIS.API.Controllers
@@ -16,12 +16,21 @@ namespace ScheduleIS.API.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("WithIds")]
         public async Task<ActionResult<List<ScheduleResponse>>> GetSchedule()
         {
             var schedule = await _scheduleService.GetAllSchedule();
 
-            var response = schedule.Select(b => new ScheduleResponse(b.Id, b.Name, b.Description, b.Group));
+            var response = schedule.Select(b => new ScheduleResponse(b.Id, b.Date, b.TeacherId, b.CourseId, b.GroupId, b.TimepairId));
+
+            return Ok(response);
+        }
+        [HttpGet("WithNames")]
+        public async Task<ActionResult<List<ScheduleDtoResponse>>> GetScheduleWithNames()
+        {
+            var schedule = await _scheduleService.GetAllScheduleWithNames();
+
+            var response = schedule.Select(b => new ScheduleDtoResponse(b.Id, b.Date, b.TeacherName, b.CourseName, b.GroupName, b.TimepairId));
 
             return Ok(response);
         }
@@ -31,9 +40,12 @@ namespace ScheduleIS.API.Controllers
         {
             var (schedule, error) = Schedule.Create(
                 Guid.NewGuid(),
-                request.Group,
-                request.Description,
-                request.Name);
+                request.Date, 
+                request.TeacherId,
+                request.CourseId, 
+                request.GroupId, 
+                request.TimepairId
+            );
 
             if (!string.IsNullOrEmpty(error))
             {
@@ -48,7 +60,12 @@ namespace ScheduleIS.API.Controllers
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateSchedule(Guid id, [FromBody] ScheduleRequest request)
         {
-            var scheduleId = await _scheduleService.UpdateSchedule(id, request.Description, request.Group);
+            var scheduleId = await _scheduleService.UpdateSchedule(id,
+                request.Date,
+                request.TeacherId,
+                request.CourseId,
+                request.GroupId,
+                request.TimepairId);
 
             return Ok(scheduleId);
         }

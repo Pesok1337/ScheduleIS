@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ScheduleIS.Core;
 using ScheduleIS.Core.Models;
 using ScheduleIS.DataAccess.Entites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ScheduleIS.DataAccess.Repositories
 {
@@ -25,7 +22,7 @@ namespace ScheduleIS.DataAccess.Repositories
                 .ToListAsync();
 
             var schedule = scheduleEntities
-                .Select(b => Schedule.Create(b.Id, b.Name, b.Description, b.Group).Schedule)
+                .Select(b => Schedule.Create(b.Id, b.Date, b.TeacherId, b.CourseId, b.GroupId, b.TimepairId).Schedule)
                 .ToList();
 
             return schedule;
@@ -36,10 +33,11 @@ namespace ScheduleIS.DataAccess.Repositories
             var scheduleEntity = new ScheduleEntity
             {
                 Id = schedule.Id,
-                //Created = schedule.Created,
-                Description = schedule.Description,
-                Group = schedule.Group,
-                Name = schedule.Name
+                Date = schedule.Date,
+                GroupId = schedule.GroupId,
+                CourseId = schedule.CourseId,
+                TimepairId = schedule.TimepairId,
+                TeacherId = schedule.TeacherId,
             };
 
             await _context.Schedules.AddAsync(scheduleEntity);
@@ -48,13 +46,17 @@ namespace ScheduleIS.DataAccess.Repositories
             return scheduleEntity.Id;
         }
 
-        public async Task<Guid> Update(Guid id, string description, string group)
+        public async Task<Guid> Update(Guid id, DateTime date, Guid teacherId, Guid courseId, Guid groupId, int timepairId)
         {
             await _context.Schedules
                 .Where(b => b.Id == id)
                 .ExecuteUpdateAsync(s => s
-                .SetProperty(b => b.Description, b => description)
-                .SetProperty(b => b.Group, b => group));
+                .SetProperty(b => b.Date, b => date)
+                .SetProperty(b => b.TeacherId, b => teacherId)
+                .SetProperty(b => b.CourseId, b => courseId)
+                .SetProperty(b => b.GroupId, b => groupId)
+                .SetProperty(b => b.TimepairId, b => timepairId)
+                );
 
             return id;
         }
@@ -67,5 +69,29 @@ namespace ScheduleIS.DataAccess.Repositories
 
             return id;
         }
+        public async Task<List<ScheduleDto>> GetWithNames()
+        {
+            var scheduleEntities = await _context.Schedules
+                .AsNoTracking()
+                .Include(s => s.Group)
+                .Include(s => s.Course)
+                .Include(s => s.Teacher)
+                .Include(s => s.Timepair)
+                .ToListAsync();
+
+            var schedules = scheduleEntities
+                .Select(b => new ScheduleDto
+                {
+                    Id = b.Id,
+                    Date = b.Date,
+                    TeacherName = b.Teacher.Name,
+                    CourseName = b.Course.Name,
+                    GroupName = b.Group.Name,
+                    TimepairId = b.TimepairId
+                }).ToList();
+
+            return schedules;
+        }
+        
     }
 }

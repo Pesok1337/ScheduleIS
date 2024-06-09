@@ -1,11 +1,13 @@
 export interface ScheduleRequest {
-    name: string 
-    description:string; 
-    group: string;
+  date: string;
+  teacherId: string;
+  courseId: string;
+  groupId: string;
+  timepairId: number;
 }
 
 export const getAllSchedules = async () => {
-    const response = await fetch("http://localhost:5090/Schedule")
+    const response = await fetch("http://localhost:5090/Schedule/WithIds")
 
     return response.json();
 };

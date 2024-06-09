@@ -1,7 +1,8 @@
 export interface CourseRequest {
-    name: string 
-    description:string; 
-    group: string;
+    name: string; 
+    description:string;
+    duration: number; 
+    status: boolean;
 }
 
 export const getAllCourses = async () => {

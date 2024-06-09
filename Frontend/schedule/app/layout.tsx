@@ -4,12 +4,13 @@ import Link from "next/link";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 
 const items = [
-  {key: "home", label : <Link href={"/"}>Home</Link> },
-  {key: "schedule", label : <Link href={"/schedules"}>Schedule</Link> }, 
-  {key: "groups", label : <Link href={"/groups"}>Groups</Link> },
-  {key: "courses", label : <Link href={"/courses"}>Courses</Link> },
-  {key: "teachers", label : <Link href={"/teachers"}>Teachers</Link> },
-  {key: "students", label : <Link href={"/students"}>Students</Link> },
+  {key: "home", label : <Link href={"/"}>Главная</Link> },
+  {key: "schedule", label : <Link href={"/schedules"}>Расписание</Link> },
+  {key: "scheduleadd", label : <Link href={"/scheduleadd"}>Добавить расписание</Link> },  
+  {key: "groups", label : <Link href={"/groups"}>Группы</Link> },
+  {key: "courses", label : <Link href={"/courses"}>Курсы</Link> },
+  {key: "teachers", label : <Link href={"/teachers"}>Учителя</Link> },
+  {key: "timepair", label : <Link href={"/timepairs"}>Расписание пар</Link> },
 ];
 
 export default function RootLayout({

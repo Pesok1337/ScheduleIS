@@ -1,12 +1,17 @@
 export interface GroupRequest {
-    name: string 
-    description:string; 
-    //group: string;
+    name: string; 
+    //date_start: string; 
+    //course_id: string;
+    //teacher_id: string;
 }
 
 export const getAllGroups = async () => {
     const response = await fetch("http://localhost:5090/Group")
 
+    if (!response.ok)
+        {
+            throw new Error(`Failed to fetch: ${response.statusText}`)
+        }
     return response.json();
 };
 
