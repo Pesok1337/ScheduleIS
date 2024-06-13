@@ -11,13 +11,11 @@ export default function CoursesPage() {
       const defaultValues = {
           name: "",
           description: "",
-          duration:"",
-          status: "",
+          duration:0,
+          status: false,
       } as Course;
   
       const [values, setValues] = useState<Course>(defaultValues);
-  
-  
       const [сourses, setCourses] = useState<Course[]>([]);
       const [loading, setLoading] = useState(true);
       const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,13 +88,11 @@ export default function CoursesPage() {
                   handleUpdate={handleUpdateCourse} 
                   handleCancel={closeModal}
               />  
-              
-  
-              {loading ? <Title>Loading....</Title> : <Courses 
-                  courses = {сourses} 
-                  handleOpen={openEditModal} 
-                  handleDelete={handleDeleteCourse}
-              />}
+              {loading ? <div>Loading....</div> : <Courses 
+                courses = {сourses} 
+                handleOpen={openEditModal} 
+                handleDelete={handleDeleteCourse}
+                />}
           </div>
       )
   }

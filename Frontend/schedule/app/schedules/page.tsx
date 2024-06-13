@@ -101,8 +101,6 @@ export default function SchedulePage() {
 }
 */
 "use client";
-// src/pages/Schedules.tsx
-
 import React from 'react';
 import ScheduleContainer from '../components/ScheduleContainer';
 

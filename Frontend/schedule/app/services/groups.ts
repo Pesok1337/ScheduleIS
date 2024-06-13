@@ -1,8 +1,5 @@
 export interface GroupRequest {
     name: string; 
-    //date_start: string; 
-    //course_id: string;
-    //teacher_id: string;
 }
 
 export const getAllGroups = async () => {

@@ -14,22 +14,21 @@ export const Groups = ({groups, handleDelete, handleOpen}: Props) => {
             {groups.map((group : Group) => (
                 <Card 
                     key={group.id} 
-                    name={<CardName name={group.name} 
-                    group={group.name}/>} 
+                    title={<CardName name={group.name} group={group.name} />} 
                     bordered={false}
                 >
                     <p>{group.name}</p>
                     <div className="card_buttons">
                         <Button 
                             onClick={() => handleOpen(group)} 
-                            style={{Flex: 1 }}
+                            style={{flex: 1 }}
                         >
                             Редактировать
                         </Button>
                         <Button
                             onClick={() => handleDelete(group.id)}
                             danger 
-                            style={{Flex: 1 }}
+                            style={{flex: 1 }}
                         >
                             Удалить
                         </Button>

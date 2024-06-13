@@ -68,9 +68,6 @@ export default function GroupsPage() {
           const groups = await getAllGroups();
           setGroups(groups);
       }
-  
-  
-      
       return (
           <div>
               <Button
@@ -86,14 +83,12 @@ export default function GroupsPage() {
                   handleCreate={handleCreateGroup} 
                   handleUpdate={handleUpdateGroup} 
                   handleCancel={closeModal}
-              />  
-              
-  
-              {loading ? <Title>Loading....</Title> : <Groups 
-                  groups = {groups} 
-                  handleOpen={openEditModal} 
-                  handleDelete={handleDeleteGroup}
-              />}
+              />
+              {loading ? <div>Loading....</div> : <Groups 
+                groups = {groups} 
+                handleOpen={openEditModal} 
+                handleDelete={handleDeleteGroup}
+                />}            
           </div>
       )
   }

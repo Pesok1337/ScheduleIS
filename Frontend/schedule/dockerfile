@@ -1,0 +1,21 @@
+FROM node:20.12.2-alpine AS build
+WORKDIR /
+COPY package*.json ./
+RUN npm install
+COPY . ../
+
+# Копируем остальные файлы и собираем проект
+RUN npm run build
+# Используем лёгкий Node.js образ для запуска приложения
+# FROM node:18-alpine AS runtime
+# WORKDIR /app
+
+# Копируем собранные файлы из предыдущего этапа
+# COPY --from=build /app ./
+
+# Сервис для раздачи собранного приложения
+FROM node:20.12.2-alpine AS runtime
+WORKDIR /
+COPY --from=build / ./
+EXPOSE 3000
+CMD ["npm", "run", "start"]

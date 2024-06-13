@@ -1,6 +1,5 @@
 import { Input, Modal } from "antd";
 import { TeacherRequest } from "../services/teachers";
-import TextArea from "antd/es/input/TextArea";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -59,7 +58,6 @@ export const CreateUpdateTeacher = ({
             <Input
                 value={phone}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
-                autoSize={{ minRows: 3, maxRows: 3}}
                 placeholder="Телефон"
             />
             <Input

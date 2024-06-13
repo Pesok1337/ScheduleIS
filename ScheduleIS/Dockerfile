@@ -1,25 +1,26 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
+# Базовый образ для ASP.NET Core Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
 WORKDIR /app
 EXPOSE 8080
-EXPOSE 8081
+EXPOSE 7076
 
+# Образ для сборки проекта
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["ScheduleIS/ScheduleIS.csproj", "ScheduleIS/"]
-RUN dotnet restore "./ScheduleIS/ScheduleIS.csproj"
+COPY ["ScheduleIS/ScheduleIS.API.csproj", "ScheduleIS/"]
+RUN dotnet restore "./ScheduleIS/ScheduleIS.API.csproj"
 COPY . .
 WORKDIR "/src/ScheduleIS"
-RUN dotnet build "./ScheduleIS.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./ScheduleIS.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+# Образ для публикации проекта
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./ScheduleIS.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./ScheduleIS.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-FROM base AS final
+# Финальный образ для запуска приложения
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ScheduleIS.dll"]
+ENTRYPOINT ["dotnet", "ScheduleIS.API.dll"]

@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Layout style={{minHight: "100vh"}}>
+        <Layout style={{minHeight: "100vh"}}>
           <Header>
             <Menu 
               theme="dark" 

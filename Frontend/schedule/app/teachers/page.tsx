@@ -71,8 +71,6 @@ export default function TeachersPage() {
           setTeachers(teachers);
       }
   
-  
-      
       return (
           <div>
               <Button
@@ -89,13 +87,11 @@ export default function TeachersPage() {
                   handleUpdate={handleUpdateTeacher} 
                   handleCancel={closeModal}
               />  
-              
-  
-              {loading ? <Title>Loading....</Title> : <Teachers 
-                  teachers = {teachers} 
-                  handleOpen={openEditModal} 
-                  handleDelete={handleDeleteTeacher}
-              />}
+              {loading ? <div>Loading....</div> : <Teachers 
+                teachers = {teachers} 
+                handleOpen={openEditModal} 
+                handleDelete={handleDeleteTeacher}
+                />}
           </div>
       )
   }

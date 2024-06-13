@@ -14,22 +14,21 @@ export const Courses = ({courses, handleDelete, handleOpen}: Props) => {
             {courses.map((course : Course) => (
                 <Card 
                     key={course.id} 
-                    name={<CardName name={course.name} 
-                    group={course.description}/>} 
+                    title={<CardName name={course.name} group={course.description} />}
                     bordered={false}
                 >
                     <p>{course.name}</p>
                     <div className="card_buttons">
                         <Button 
                             onClick={() => handleOpen(course)} 
-                            style={{Flex: 1 }}
+                            style={{flex: 1 }}
                         >
                             Редактировать
                         </Button>
                         <Button
                             onClick={() => handleDelete(course.id)}
                             danger 
-                            style={{Flex: 1 }}
+                            style={{flex: 1 }}
                         >
                             Удалить
                         </Button>
